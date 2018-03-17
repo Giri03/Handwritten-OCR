@@ -1,170 +1,195 @@
 <!DOCTYPE html>
+<?php
+  ini_set('max_execution_time', 0); 
+  session_start();
+?>
+<!DOCTYPE html>
 <html lang="en">
- <head>
-   <title>OCR13</title>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- </head>
- <style>
-	.mainDiv{
-	  position: relative;
-	  width: 1200px;
-	  height: 100px;
-	  margin: 0px auto;
-	  margin-top:-25px;
-	}
-	.square{
-	  width:100px;
-	  height:100px;
-	  background:#708090;
-	  border:solid 2px #708090;
-	  float:left;
-	  transform: skew(180deg,210deg);
-	  position: absolute;
-	  top: 43px;
-	  box-shadow: 0px 0px 50px #C0C0C0;
-	}
-	.square2{
-	  width:100px;
-	  height:100px;
-	  opacity: 0.5;
-	  background:#708090;
-	  border:solid 2px #708090;
-	  float:left;
-	  transform: skew(180deg,150deg);
-	  position: absolute;
-	  left:102px;
-	  top: 43px;
-	  box-shadow: 0px 0px 50px #C0C0C0;
-	}
-	.square3{
-	  width:114px;
-	  height:100px;
-	  background:#708090;
-	  border:solid 2px #708090;
-	  float:right;
-	  box-shadow: 0px 0px 50px #C0C0C0;
-	  transform: rotate(150deg) translate(-40px, -16px) skew(30deg, 0deg);
-	  position: absolute;
-	  left: 0px;
-	  top: -32px;
-	}
-	body{
-	  margin: 0;
-	  padding: 0;
-	  background: #262626;
-	}
-	.skewedBox{
-	  background: #708090;
-	  padding: 80px 0;
-	  transform: skew(0deg, -150deg) translate(-10px);
-	}
-	h1{
-	  color:#696969; 
-	  opacity: 1;
-	}
-	h2{
-	  color:#696969; 
-	  opacity: 1;
-	}
-	.uploads{
-      margin: auto;
-      margin-top: -5%;
-	    width: 30%;
-      height: 300px;
-      border: 0px darkslategrey;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      background: #D3D3D3;
-      opacity: 1;
-      padding: 40px;
-      box-shadow: 8px 8px 8px 8px #C0C0C0;
-  } 
-  #file{
-      display: none;
-	}
-  .button{
-    padding: 10px;
-    text-align: center;   
-    transition-duration: 0.4s;
-    cursor: pointer;
-    background-color: white;
-    color: black;
-    border: 2px solid #555555;
-    border-radius: 50px;
-    margin-top: 30px;
-	}
-  .button:hover{
-    background-color: #262626;
-    color: white;
-	}
-  #box1{
-    width: 30%;
-    height: 30px;
-    padding: 60px 0;
-    text-align: center;
-    padding-top:10px;
-	  margin-right:-10px;
-    margin-bottom:40px;
-  }
-  .submit{
-    margin-right:-10px;
-    margin-top:20px;
-    border-radius: 50px;
-	}
-  ::-webkit-file-upload-button{
-	  background: #0073e6;
-	  color: white;
-	  padding: 0.5em;
-	}
+<head>
 
- </style>
- <body>
-	<section class="skewedBox">
-	  <div class="container">
-	  </div>
-	</section>
-	<section class="skewedBox2">
-	  <div class="container">
-	    <h1>OCR</h1>
-			<h2>We Made It Happen</h2>
-	  </div>
-	</section>
-	<div class="uploads">
-		<form action = "chdir.php" method="post" enctype="multipart/form-data">
-			<input type="file" name="uploadedfile" >
-			<div id="box1">
-				<h4><span title="Category">CATEGORY</span></h4>
-				<?php
-					$path_pwd= dirname(__DIR__);
-					$dir = $path_pwd ."//input";
-					// Sort in ascending order - this is default
-					$a = scandir($dir);
-					$files = array_slice($a, 2);
-					$arrayKeys = array_keys($files);
-						for ($i=0; $i<count($files); $i++) {
-						echo "<input type=radio name=value value='". $files[$arrayKeys[$i]] ."'>"; 
-						echo $files[$arrayKeys[$i]]."<br>";  
-					}
-				?>
-	  	</div>
-			<br>
-      <div class='submit'>
-        <button type="submit" accesskey="S" name="submit"class="btn btn-primary"><i class="fa fa-spinner" aria-hidden="true"></i>
-		   		<span title="submit">SUBMIT</span>
-		 		</button>
+    <title>PaperPy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Acme|Lato|Butcherman|Dancing+Script|Jura|Changa|Permanent+Marker|Rammetto+One|Righteous" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="head.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+ </head>
+
+ <script>
+    jQuery(document).ready(function(){
+    jQuery("input:radio[name=value]:first").attr('checked', true);
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+    function unlock(){
+        document.getElementById('buttonSubmit').removeAttribute("disabled");
+    }
+</script>
+
+<style>
+  #name{
+    color: white;
+    bottom: 0;
+    font-family: 'Righteous', cursive;
+  }
+  .unordered_list li a {
+    font-family: 'Jura',sans-serif;
+    font-size: 20px;
+  }
+  #future{
+    background-color: #db0404;
+    color: white;
+  }
+  section{
+    max-width: 1100px;
+    background: #edf0f2;
+    margin: auto;
+    padding: 10px;
+    height: auto;
+    clear: both;
+  }
+  #para1{
+    margin-left: 100px;
+    margin-top: 5%;
+    font-family: 'Righteous', cursive;
+    font-size: 40px;
+    text-shadow: 1.5px 1.5px white;
+    color: #2e4a68;
+  }
+  #para2{
+    margin-left: 100px;
+    margin-top: 5%;
+    font-family: 'Righteous', cursive;
+    font-size: 40px;
+    text-shadow: 1.5px 1.5px white;
+    color: #2e4a68;
+  }
+  #para3{
+    margin-left: 100px;
+    margin-top: 5%;
+    font-family: 'Righteous', cursive;
+    font-size: 40px;
+    text-shadow: 1.5px 1.5px white;
+    color: #2e4a68;
+  }
+  #box1,#box2,#box3{
+    clear: both;
+    font-size: 20px;
+    border-radius: 25px;
+    padding: 5%;
+    margin: 0;
+    width: 60%;
+    margin-left: 100px;
+    border: 2px solid #d3504a;
+    color: #25722f;
+    font-family: 'Lato', sans-serif;
+  }
+  span.category{
+    margin-left: 25px;
+  }
+  ::-webkit-file-upload-button{
+    background-color: #4CAF50;
+    border: 1.5px solid lightgreen;
+    border-radius: 10%;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 11px;
+  }
+  #buttonSubmit{
+    background-color: #4CAF50;
+    border: 1.5px solid lightgreen;
+    border-radius: 10%;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 11px;
+}
+
+
+</style>
+</head>
+<?php
+$dir =dirname(__DIR__).'/temp/';
+if(file_exists ( $dir)){
+  foreach(glob($dir.'*.*') as $v){
+    unlink($v);
+  }
+}
+else{
+  echo "<script type='text/javascript'>alert('Temp folder not found')</script>";            
+}
+?>
+<body>
+  <div class="p3">
+    <ul class="unordered_list">
+      <li><img class="logo" src="logo.gif" height="90px" width="90px"></li> &nbsp;
+      <a href="index.php"><li id="name">PaperPy</li></a>
+      <div class="p4">
+        <li><a href="index.php">Home</a></li>
+        <li><a id = "future" href="form.php">OCR</a></li>
+        <li><a id = "edit" href="edit.php">Edit form</a></li>
+        <li><a id = "2" href="whatwedo.php">What we do</a></li>
+        <li><a id = "1" href="Contact.php">Contact Us</a></li>
       </div>
-    </form>      
-	</div>
-	<div class="mainDiv">
-	   <div class="square"></div>
-	   <div class="square2"></div>
-	   <div class="square3"></div>
+    </ul>
   </div>
- </body>
+  <section>
+
+  <form action = "chdir.php" method="post" enctype="multipart/form-data">
+      <p id="para1"> Choose a file </p>
+      <div id = box1 >
+          <input type="file" name="uploadedfile"  data-toggle="tooltip" data-placement="left" title="Choose a file" onchange="unlock();" >
+      </div>
+
+      <p id="para2" data-toggle="tooltip" data-placement="left" title="Category"
+      class = "category" align="left">Choose a Category</p>
+
+      </div><div id="box2" >
+
+      <?php
+          $path_pwd = dirname(__DIR__);
+          $path_input = $path_pwd.'/input';
+          $_SESSION['path_pwd'] = $path_pwd;
+          #Sort in ascending order - this is default
+          $a = scandir($path_input);
+          $files = array_slice($a, 2);
+          $arrayKeys = array_keys($files);
+          for ($i=0; $i<count($files); $i++) {
+              echo "<input type=radio class=buttons_test name=value value='". $files[$arrayKeys[$i]] ."'>";
+              echo $files[$arrayKeys[$i]]."<br>";
+          }
+      ?>
+      </div>
+
+      <p id="para3">Start Recognition</p>
+      <div id = "box3" >
+         <button type="submit" name = "submit" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="submit" id="buttonSubmit" value="submit" disabled>
+            Submit
+          </button>
+      </div>
+
+    </form>
+  </section>
+</body>
 </html>
